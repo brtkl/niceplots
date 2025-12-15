@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#km-plot-with-numer-of-subjects-at-risk" class="md-skip">
+        <a href="#1-km-plot-with-numer-of-subjects-at-risk" class="md-skip">
           Skip to content
         </a>
       
@@ -277,10 +277,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#km-plot-with-numer-of-subjects-at-risk" class="md-nav__link">
+  <a href="#1-km-plot-with-numer-of-subjects-at-risk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        KM Plot with numer of subjects at risk
+        1. KM Plot with numer of subjects at risk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-km-plot-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. KM Plot 2
       
     </span>
   </a>
@@ -320,10 +331,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#km-plot-with-numer-of-subjects-at-risk" class="md-nav__link">
+  <a href="#1-km-plot-with-numer-of-subjects-at-risk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        KM Plot with numer of subjects at risk
+        1. KM Plot with numer of subjects at risk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-km-plot-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. KM Plot 2
       
     </span>
   </a>
@@ -349,27 +371,26 @@
 
   <h1>KM plots</h1>
 
-<h2 id="km-plot-with-numer-of-subjects-at-risk">KM Plot with numer of subjects at risk</h2>
-<p><img alt="Basic scatter" src="../output/kmplot011.png" /></p>
-<details class="example">
-<summary>SAS code (from file)</summary>
+<h2 id="1-km-plot-with-numer-of-subjects-at-risk">1. KM Plot with numer of subjects at risk</h2>
+<p><img alt="KM 1" src="../output/kmplot011.png" /></p>
+<details class="snippet">
+<summary>Snippet</summary>
 <div class="highlight"><pre><span></span><code>%let fpath=C:\_D\PROJECTS\_LEARNING\sas\sasplots\docs;
 
 libname xptadam xport &quot;&amp;fpath.\data\adam\xpt\adtte.xpt&quot;;
 
 proc copy inlib=xptadam outlib=work;
 run;
-
+ods graphics on;
 ods output survivalplot=surv1;
-ods listing close;
 proc lifetest data=adtte plots=survival(atrisk=0 to 200 by 20);
     time aval*cnsr(1);
-    strata trta;
+    strata trtan;
 run;
-ods listing;
+ods graphics off;
 
 
-ods listing /*style=htmlblue*/ image_dpi=300 gpath=&quot;&amp;fpath.\output&quot;; 
+ods listing style=htmlblue image_dpi=300 gpath=&quot;&amp;fpath.\output&quot;; 
 
 ods graphics / reset width=8in height=6in imagename=&#39;kmplot01&#39;;
 
@@ -384,8 +405,11 @@ proc sgplot data=surv1;
     keylegend &#39;c&#39; / location=inside position=topright;
     keylegend &#39;s&#39;;
 run;
+
+ods graphics off;
 </code></pre></div>
 </details>
+<h2 id="2-km-plot-2">2. KM Plot 2</h2>
 
 
 

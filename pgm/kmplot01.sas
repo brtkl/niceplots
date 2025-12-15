@@ -5,17 +5,16 @@ libname xptadam xport "&fpath.\data\adam\xpt\adtte.xpt";
 
 proc copy inlib=xptadam outlib=work;
 run;
-
+ods graphics on;
 ods output survivalplot=surv1;
-ods listing close;
 proc lifetest data=adtte plots=survival(atrisk=0 to 200 by 20);
 	time aval*cnsr(1);
-	strata trta;
+	strata trtan;
 run;
-ods listing;
+ods graphics off;
 
 
-ods listing /*style=htmlblue*/ image_dpi=300 gpath="&fpath.\output"; 
+ods listing style=htmlblue image_dpi=300 gpath="&fpath.\output"; 
 
 ods graphics / reset width=8in height=6in imagename='kmplot01';
 
@@ -31,5 +30,5 @@ proc sgplot data=surv1;
 	keylegend 's';
 run;
 
-
+ods graphics off;
 
