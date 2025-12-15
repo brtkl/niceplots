@@ -1,0 +1,35 @@
+
+%let fpath=C:\_D\PROJECTS\_LEARNING\sas\sasplots\docs;
+
+libname xptadam xport "&fpath.\data\adam\xpt\adtte.xpt";
+
+proc copy inlib=xptadam outlib=work;
+run;
+
+ods output survivalplot=surv1;
+ods listing close;
+proc lifetest data=adtte plots=survival(atrisk=0 to 200 by 20);
+	time aval*cnsr(1);
+	strata trta;
+run;
+ods listing;
+
+
+ods listing /*style=htmlblue*/ image_dpi=300 gpath="&fpath.\output"; 
+
+ods graphics / reset width=8in height=6in imagename='kmplot01';
+
+title 'KM Plot 1';
+proc sgplot data=surv1;
+	step x=time y=survival / group=stratum lineattrs=(pattern=solid) name='s';
+	scatter x=time y=censored / markerattrs=(symbol=plus) name='c';
+	scatter x=time y=censored / markerattrs=(symbol=plus) group=stratum;
+	xaxistable atrisk / x=tatrisk location=inside class=stratum colorgroup=stratum 
+		separator valueattrs=(size=7 weight=bold) labelattrs=(size=8);
+	xaxis values=(0 to 200 by 20) ;
+	keylegend 'c' / location=inside position=topright;
+	keylegend 's';
+run;
+
+
+
