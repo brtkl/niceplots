@@ -12,6 +12,8 @@
         <link rel="prev" href="..">
       
       
+        <link rel="next" href="../ggplot2/">
+      
       
         
       
@@ -287,21 +289,37 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#2-km-plot-2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. KM Plot 2
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ggplot2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ggplot2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -341,17 +359,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#2-km-plot-2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. KM Plot 2
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -375,12 +382,19 @@
 <p><img alt="KM 1" src="../output/kmplot011.png" /></p>
 <details class="snippet">
 <summary>Snippet</summary>
-<div class="highlight"><pre><span></span><code>%let fpath=C:\_D\PROJECTS\_LEARNING\sas\sasplots\docs;
-
-libname xptadam xport &quot;&amp;fpath.\data\adam\xpt\adtte.xpt&quot;;
+<div class="highlight"><pre><span></span><code>libname xptadam xport &quot;&amp;fpath.\data\adam\xpt\adtte.xpt&quot;;
 
 proc copy inlib=xptadam outlib=work;
 run;
+
+proc format;
+    value $_trt 
+        &#39;0&#39;=&#39;Placebo&#39;
+        &#39;54&#39;=&#39;Drug A&#39;
+        &#39;81&#39;=&#39;Drug B&#39;;
+run;
+
+
 ods graphics on;
 ods output survivalplot=surv1;
 proc lifetest data=adtte plots=survival(atrisk=0 to 200 by 20);
@@ -389,6 +403,12 @@ proc lifetest data=adtte plots=survival(atrisk=0 to 200 by 20);
 run;
 ods graphics off;
 
+
+proc datasets noprint;
+    modify surv1;
+    format stratum $_trt.;
+    label time=&#39;Study day&#39;;
+quit;
 
 ods listing style=htmlblue image_dpi=300 gpath=&quot;&amp;fpath.\output&quot;; 
 
@@ -409,7 +429,6 @@ run;
 ods graphics off;
 </code></pre></div>
 </details>
-<h2 id="2-km-plot-2">2. KM Plot 2</h2>
 
 
 
