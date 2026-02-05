@@ -12,7 +12,7 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../ggplot2/">
+        <link rel="next" href="../panels/">
       
       
         
@@ -304,14 +304,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../ggplot2/" class="md-nav__link">
+      <a href="../panels/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ggplot2
+    Panels
   
 
     
@@ -382,49 +382,49 @@
 <p><img alt="KM 1" src="../output/kmplot011.png" /></p>
 <details class="snippet">
 <summary>Snippet</summary>
-<div class="highlight"><pre><span></span><code>libname xptadam xport &quot;&amp;fpath.\data\adam\xpt\adtte.xpt&quot;;
+<div class="highlight"><pre><span></span><code><span class="k">libname</span> xptadam xport <span class="s">&quot;</span><span class="nv">&amp;fpath.</span><span class="s">\data\adam\xpt\adtte.xpt&quot;</span><span class="kr">;</span>
 
-proc copy inlib=xptadam outlib=work;
-run;
+<span class="kr">proc copy </span>inlib=xptadam outlib=work<span class="kr">;</span>
+<span class="kr">run;</span>
 
-proc format;
+<span class="kr">proc format;</span>
     value $_trt 
-        &#39;0&#39;=&#39;Placebo&#39;
-        &#39;54&#39;=&#39;Drug A&#39;
-        &#39;81&#39;=&#39;Drug B&#39;;
-run;
+        <span class="s">&#39;0&#39;</span>=<span class="s">&#39;Placebo&#39;</span>
+        <span class="s">&#39;54&#39;</span>=<span class="s">&#39;Drug A&#39;</span>
+        <span class="s">&#39;81&#39;</span>=<span class="s">&#39;Drug B&#39;</span><span class="kr">;</span>
+<span class="kr">run;</span>
 
 
-ods graphics on;
-ods output survivalplot=surv1;
-proc lifetest data=adtte plots=survival(atrisk=0 to 200 by 20);
-    time aval*cnsr(1);
-    strata trtan;
-run;
-ods graphics off;
+ods graphics <span class="k">on</span>;
+ods <span class="k">output</span> survivalplot=surv1<span class="kr">;</span>
+<span class="kr">proc lifetest </span>data=adtte plots=survival(atrisk=<span class="m">0</span> to <span class="m">200</span> <span class="k">by</span> <span class="m">20</span>);
+    time aval*cnsr(<span class="m">1</span>);
+    strata trtan<span class="kr">;</span>
+<span class="kr">run;</span>
+ods graphics off<span class="kr">;</span>
 
 
-proc datasets noprint;
-    modify surv1;
-    format stratum $_trt.;
-    label time=&#39;Study day&#39;;
-quit;
+<span class="kr">proc datasets </span>noprint;
+    <span class="k">modify</span> surv1;
+    <span class="k">format</span> stratum $_trt.;
+    <span class="k">label</span> time=<span class="s">&#39;Study day&#39;</span><span class="kr">;</span>
+<span class="kr">quit;</span>
 
-ods listing style=htmlblue image_dpi=300 gpath=&quot;&amp;fpath.\output&quot;; 
+ods listing style=htmlblue image_dpi=<span class="m">300</span> gpath=<span class="s">&quot;</span><span class="nv">&amp;fpath.</span><span class="s">\output&quot;</span>; 
 
-ods graphics / reset width=8in height=6in imagename=&#39;kmplot01&#39;;
+ods graphics / <span class="k">reset</span> width=8in height=6in imagename=<span class="s">&#39;kmplot01&#39;</span>;
 
-title &#39;KM Plot 1&#39;;
-proc sgplot data=surv1;
-    step x=time y=survival / group=stratum lineattrs=(pattern=solid) name=&#39;s&#39;;
-    scatter x=time y=censored / markerattrs=(symbol=plus) name=&#39;c&#39;;
-    scatter x=time y=censored / markerattrs=(symbol=plus) group=stratum;
-    xaxistable atrisk / x=tatrisk location=inside class=stratum colorgroup=stratum 
-        separator valueattrs=(size=7 weight=bold) labelattrs=(size=8);
-    xaxis values=(0 to 200 by 20) ;
-    keylegend &#39;c&#39; / location=inside position=topright;
-    keylegend &#39;s&#39;;
-run;
+<span class="k">title</span> <span class="s">&#39;KM Plot 1&#39;</span><span class="kr">;</span>
+<span class="kr">proc sgplot </span>data=surv1;
+    step <span class="k">x</span>=time y=survival / <span class="k">group</span>=stratum lineattrs=(pattern=solid) name=<span class="s">&#39;s&#39;</span>;
+    scatter <span class="k">x</span>=time y=censored / markerattrs=(symbol=plus) name=<span class="s">&#39;c&#39;</span>;
+    scatter <span class="k">x</span>=time y=censored / markerattrs=(symbol=plus) <span class="k">group</span>=stratum;
+    xaxistable atrisk / <span class="k">x</span>=tatrisk location=inside class=stratum colorgroup=stratum 
+        separator valueattrs=(size=<span class="m">7</span> weight=bold) labelattrs=(size=<span class="m">8</span>);
+    xaxis values=(<span class="m">0</span> to <span class="m">200</span> <span class="k">by</span> <span class="m">20</span>) ;
+    keylegend <span class="s">&#39;c&#39;</span> / location=inside position=topright;
+    keylegend <span class="s">&#39;s&#39;</span><span class="kr">;</span>
+<span class="kr">run;</span>
 
 ods graphics off;
 </code></pre></div>
