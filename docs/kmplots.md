@@ -3,8 +3,6 @@
 ![KM 1](output/kmplot011.png)
 	
 ??? snippet
-    ```
+    ``` sas
     --8<-- "docs/pgm/kmplot01.sas"
     ```
-
-## 2. KM Plot 2

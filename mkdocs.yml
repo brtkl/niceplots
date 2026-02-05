@@ -1,4 +1,4 @@
-site_name: SAS Plots Library
+site_name: Nice Plots
 
 theme:
   name: material
@@ -6,6 +6,8 @@ theme:
 nav:
   - Home: index.md
   - KM plots: kmplots.md
+  - Panels: panels.md
+
 
 markdown_extensions:
   - admonition
