@@ -7,7 +7,7 @@ library(patchwork)
 data <- read_excel('waga.xlsx') |>
   clean_names() |>
   mutate(data = as.Date(data)) |> #important, otherwise datetime
-  filter(data < '2026-03-01')
+  filter(data < '2026-04-01')
 
 # Get first walking date for reference line
 first_walking_date <- data %>%
@@ -54,7 +54,7 @@ p_weight <- ggplot(data, aes(x = data, y = waga_kg)) +
 # --- 3. Bottom Plot: Walking Distance (Bar Chart) ---
 p_distance <- ggplot(data, aes(x = data, y = kilometry_na_biezni)) +
   # Geoms
-  geom_col(fill = "grey40", alpha = 0.7, width = 0.8) + # Using geom_col is fine now!
+  geom_col(fill = "grey30", alpha = 0.7, width = 0.8) + # Using geom_col is fine now!
 
   # Vertical line alignment
   geom_vline(xintercept = as.numeric(first_walking_date),
@@ -65,13 +65,13 @@ p_distance <- ggplot(data, aes(x = data, y = kilometry_na_biezni)) +
 
   shared_x_scale +
 
-  labs(subtitle = "Daily Walking Pad Activity") +
+  labs(subtitle = "Daily walking pad activity") +
   theme_minimal() +
   theme(
     panel.grid.minor = element_blank(),
     plot.margin = margin(t = 5),     # Reduce top margin
     # --- NEW: Bigger X-Axis Text ---
-    axis.text.x = element_text(size = 9)
+    axis.text.x = element_text(size = 14)
   )
 
 
@@ -85,6 +85,18 @@ combined_plot <- (p_weight / p_distance) +
       # Inner padding (space between plots and the border)
       plot.margin = margin(15, 15, 15, 15)
     )
+  ) &
+  # --- NEW: GLOBAL FONT SIZING ---
+  theme(
+    # Axis Titles (e.g., "Weight (kg)")
+    axis.title = element_text(size = 14), #face = "bold",
+
+    # Axis Numbers/Dates (e.g., "90", "Jan-2026")
+    axis.text = element_text(size = 12),
+
+    # Plot Titles/Subtitles
+    plot.title = element_text(size = 18, face = "bold"),
+    plot.subtitle = element_text(size = 14)
   )
 
 # 2. Wrap it to add the floating border
@@ -98,5 +110,6 @@ final_with_border <- wrap_elements(combined_plot) +
 
 print(final_with_border)
 
-ggsave("weight_progress_v1.png", plot = final_with_border,
+ggsave("ggplot2_weight_progress_v1.png", plot = final_with_border,
        width = 10, height = 8, dpi = 300, bg = "white")
+
